@@ -1,3 +1,4 @@
+#min heap
 class heapnode:
     def __init__(self, data):
         self.data = data
@@ -49,9 +50,57 @@ class minheap:
             if parent: return parent
         return None
 
+    def extractmin(self):
+        if not self.root:
+            print("heap is empty")
+            return
+        min=self.root.data
+        lastnodevalue=self.removelastnode()
+        if lastnodevalue:
+            self.root.data=lastnodevalue
+            self.heapify_up(self.root)
+        else:
+            self.root=None
+        return min
+    def removelastnode(self):
+        queue=[self.root]
+        lastnode=None
+        while len(queue)!=0:
+            current=queue.pop(0)
+            if current.left:
+                queue.append(current.left)
+            if current.right:
+                queue.append(current.right)
+            if not current.left and current.right:
+                lastnode=current
+        if lastnode:
+            parentnode=self.getparent(lastnode,self.root)
+            if parentnode.left==lastnode:
+                parentnode.left=None
+            else:
+                parentnode.right=None
+            return lastnode.data
+        return None
+    def heapify_down(self,node):
+        while node:
+            small=node
+            if node.left and node.left.data<small.data:
+                small=node.left
+            if node.right and node.right.data<small.data:
+                small=node.right
+            if small!=node:
+                small.data,node.data=node.data,small.data
+                node=small
+            else:
+                break
+
+
 heap=minheap()
 heap.add(10)
-heap.add(20)
-heap.add(30)
-heap.add(40)
-heap.add(50)
+heap.add(7)
+heap.add(6)
+heap.add(5)
+heap.add(4)
+print(heap.extractmin())
+print(heap.extractmin())
+print(heap.extractmin())
