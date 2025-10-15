@@ -1,0 +1,46 @@
+#backTracking Algorithm
+def is_Safe(board,row,col,N):
+    i=col
+    while i>=0:
+        if board[row][i]==1:
+            return False
+        i-=1
+    i=col
+    j=row
+    while i>=0 and j>=0:
+        if board[j][i]==1:
+            return False
+        i-=1
+        j-=1
+    i = col
+    j = row
+    while i >= 0 and j<N:
+        if board[j][i] == 1:
+            return False
+        i -= 1
+        j += 1
+    return True
+
+
+def solve_n_queen(board,col,N):
+    if col>=N:
+        return True
+    for row in range(N):
+        if is_Safe(board,row,col,N):
+            board[row][col]=1
+            if solve_n_queen(board,col+1,N):
+                return True
+            board[row][col]=0
+    return False
+
+N=4
+board=[[0 for i in range (N)]for j in range (N)]
+
+solution=solve_n_queen(board,0,N)
+if solution:
+    for i in range(N):
+        for j in range(N):
+            print(board[i][j],end=" ")
+        print()
+else:
+    print("solution not found")
