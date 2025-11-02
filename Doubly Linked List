@@ -1,0 +1,70 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next=None
+        self.prev=None
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+    def add_to_end(self,data):
+        new_node=Node(data)
+        if not self.head: #is None
+            self.head=new_node
+            return
+        current=self.head
+        while current.next:#is not None
+            current=current.next
+        current.next=new_node
+        new_node.prev=current
+    def add_to_start(self,data):
+        new_node=Node(data)
+        if not self.head: #is None
+            self.head=new_node
+            return
+        self.head.prev=new_node
+        new_node.next=self.head
+        self.head=new_node
+    def print(self):
+        current=self.head
+        print("None <- -> ",end=" ")
+        while current:
+            print(current.data,end=" <- -> ")
+            current=current.next
+        print("None")
+    def remove(self,data):
+        if not self.head:
+            print("Linked List is Empty")
+            return
+        if self.head.data==data:
+            self.head=self.head.next
+            if self.head:
+                self.head.prev=None
+            return
+
+        current=self.head
+        while current and current.data!=data:
+            current=current.next
+        if not current:
+            print(f"Data {data} not found")
+            return
+        print(f"Data {current.data} found")
+        current.prev.next=current.next
+        if current.next:
+            current.next.prev=current.prev
+
+
+linked_list=DoublyLinkedList()
+linked_list.add_to_end(3)
+linked_list.add_to_end(4)
+linked_list.add_to_end(5)
+linked_list.add_to_end(6)
+linked_list.add_to_start(2)
+linked_list.add_to_start(1)
+linked_list.add_to_start(0)
+linked_list.print()
+linked_list.remove(2)
+linked_list.print()
+
+
+
+
